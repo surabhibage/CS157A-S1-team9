@@ -1,0 +1,15 @@
+February 17, 2026
+6:00 meeting starts
+6:03 discuss repository details
+6:05 discuss project proposal 
+    TODO:
+        project description - group
+        system environment visual example - Surabhi
+        non-functional requirements
+        references - group
+        if time allows - reformat functional requirements, stretch goals
+6:10 discuss non functional requirements
+    access control - Dickson
+    gui - Casey
+    security - Surabhi
+6:15 Surabhi to send off github link to prof
