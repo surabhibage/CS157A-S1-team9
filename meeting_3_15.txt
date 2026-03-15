@@ -1,0 +1,32 @@
+March 15, 2026
+Participants: Surabhi, Casey 
+1:45 meeting starts
+1:54 creating a todo list of what needs to be done 
+    brainstorming library tables, attributes, entities, relationships, creating the ERD from that 
+    ERD diagram should be done first 
+    definitions (for each: Entities, Attributes, Relationships with Multiplicity)
+    fillings the tables with at least ten items 
+    homepage 
+    1-2 functional requirements
+2:06 Starting to create ERD diagram and deciding entity relationships 
+2:30 Starting to add on the descriptions for each entity on the ERD diagram 
+    Library 
+    Users 
+    Book Info 
+    Inventory 
+    Loans 
+    Holds 
+    Library_Settings 
+3:00 Finished adding entities and attributes and some formatting
+    Starting to add relationships to the ERD Diagram 
+    Work for writing descriptions continued simultaneously
+3:13 Ran into confusions regarding foreign keys, decided on having another meeting 
+     Meeting ended 
+2:20 Writing a list of to dos 
+    Completing the ERD Diagram 
+    Code to push onto github 
+    Creating tables in mysql workbench + script that goes with it made avaliable to all team members 
+    Completing descriptions for all the entities so far (and beyond) 
+    Modifying functional requiremnets (if needed)
+    Decide on a quick presentation outline for class (who will talk about what)
+    Relational schemas 
