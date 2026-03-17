@@ -1,0 +1,23 @@
+-- Users Table
+CREATE TABLE Users (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    phone_number VARCHAR(20),
+    address VARCHAR(255),
+    age INT,
+    role VARCHAR(20) DEFAULT 'Borrower'
+);
+
+-- Books Table
+CREATE TABLE Books (
+    book_id INT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    publication_date DATE,
+    condition_status VARCHAR(50),
+    availability_status VARCHAR(50),
+    synopsis TEXT
+);

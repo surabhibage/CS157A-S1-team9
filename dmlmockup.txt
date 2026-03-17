@@ -1,0 +1,42 @@
+-- ==========================================
+-- POPULATE USERS TABLE
+-- ==========================================
+
+-- Inserting Library Administrators (Librarians)
+INSERT INTO Users (user_id, username, password_hash, first_name, last_name, phone_number, address, age, role)
+VALUES
+(101, 'admin_sarah', 'AdminPass1!', 'Sarah', 'Connor', '555-0101', '123 Library Lane, San Jose, CA', 35, 'Admin'),
+(102, 'admin_marcus', 'AdminPass2!', 'Marcus', 'Aurelius', '555-0102', '456 Book Blvd, San Jose, CA', 42, 'Admin');
+
+-- Inserting Borrowers (Regular Users)
+INSERT INTO Users (user_id, username, password_hash, first_name, last_name, phone_number, address, age, role)
+VALUES
+(201, 'jdoe99', 'UserPass1!', 'John', 'Doe', '555-0201', '789 Oak St, San Jose, CA', 22, 'Borrower'),
+(202, 'asmith', 'UserPass2!', 'Alice', 'Smith', '555-0202', '321 Pine Ave, San Jose, CA', 28, 'Borrower'),
+(203, 'bwayne', 'UserPass3!', 'Bruce', 'Wayne', '555-0203', '1007 Mountain Drive, San Jose, CA', 30, 'Borrower'),
+(204, 'ckent', 'UserPass4!', 'Clark', 'Kent', '555-0204', '344 Clinton St, San Jose, CA', 33, 'Borrower');
+
+
+-- ==========================================
+-- POPULATE BOOKS TABLE
+-- ==========================================
+
+-- Inserting Books with 'Available' status
+INSERT INTO Books (book_id, title, author, publication_date, condition_status, availability_status, synopsis)
+VALUES
+(1001, 'The Great Gatsby', 'F. Scott Fitzgerald', '1925-04-10', 'Good', 'Available', 'A novel set in the Jazz Age that tells the story of Jay Gatsby and his unrequited love for Daisy Buchanan.'),
+(1002, '1984', 'George Orwell', '1949-06-08', 'Excellent', 'Available', 'A dystopian social science fiction novel and cautionary tale about the dangers of totalitarianism.'),
+(1003, 'To Kill a Mockingbird', 'Harper Lee', '1960-07-11', 'Fair', 'Available', 'A novel about the serious issues of rape and racial inequality told through the eyes of a child.'),
+(1004, 'Pride and Prejudice', 'Jane Austen', '1813-01-28', 'Good', 'Available', 'A romantic novel of manners that follows the character development of Elizabeth Bennet.');
+
+-- Inserting Books with 'Borrowed' status
+INSERT INTO Books (book_id, title, author, publication_date, condition_status, availability_status, synopsis)
+VALUES
+(1005, 'The Catcher in the Rye', 'J.D. Salinger', '1951-07-16', 'Poor', 'Borrowed', 'A novel detailing two days in the life of 16-year-old Holden Caulfield after he has been expelled from prep school.'),
+(1006, 'The Hobbit', 'J.R.R. Tolkien', '1937-09-21', 'Good', 'Borrowed', 'A children''s fantasy novel following the quest of home-loving Bilbo Baggins to win a share of the treasure guarded by a dragon.');
+
+-- Inserting Books with 'On Hold' status
+INSERT INTO Books (book_id, title, author, publication_date, condition_status, availability_status, synopsis)
+VALUES
+(1007, 'Fahrenheit 451', 'Ray Bradbury', '1953-10-19', 'Excellent', 'On Hold', 'A dystopian novel presenting a future American society where books are outlawed and "firemen" burn any that are found.'),
+(1008, 'Dune', 'Frank Herbert', '1965-08-01', 'Good', 'On Hold', 'A science fiction novel set in the distant future amidst a feudal interstellar society.');
