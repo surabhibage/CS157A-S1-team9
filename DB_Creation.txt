@@ -131,7 +131,7 @@ CREATE TABLE Approves (
     FOREIGN KEY (User_ID) REFERENCES Admin(User_ID)
 );
 
-CREATE TABLE Modifies (
+CREATE TABLE Admin_Modifies (
     Setting_ID INT,
     User_ID INT,
     Employee_ID INT, -- Redundant, but included per your schema

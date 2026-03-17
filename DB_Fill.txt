@@ -129,7 +129,7 @@ INSERT INTO Approves (Hold_ID, User_ID, Employee_ID) VALUES
 (1, 11, 5001), (2, 12, 5002), (3, 13, 5003), (4, 14, 5004), (5, 15, 5005),
 (6, 16, 5006), (7, 17, 5007), (8, 18, 5008), (9, 19, 5009), (10, 20, 5010);
 
-INSERT INTO Modifies (Setting_ID, User_ID, Employee_ID) VALUES
+INSERT INTO Admin_Modifies (Setting_ID, User_ID, Employee_ID) VALUES
 (1, 11, 5001), (2, 12, 5002), (3, 13, 5003), (4, 14, 5004), (5, 15, 5005),
 (6, 16, 5006), (7, 17, 5007), (8, 18, 5008), (9, 19, 5009), (10, 20, 5010);
 
