@@ -43,7 +43,7 @@ public class RegisterServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/Class?autoReconnect=true&useSSL=false";
+            String url = "jdbc:mysql://localhost:3306/LibraryManagementSys?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(url, dbUser, dbPassword);
 
             // Prepare the SQL INSERT statement
