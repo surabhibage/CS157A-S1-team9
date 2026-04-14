@@ -38,7 +38,7 @@
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Team9LibSys?autoReconnect=true&useSSL=false", "root", "ne83De-JVui");
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT Book_ID, Title, Author, Genre FROM Books");
+            ResultSet rs = stmt.executeQuery("SELECT Book_ID, Title, Author, Genre FROM Book");
 
             while(rs.next()) {
     %>
@@ -51,7 +51,8 @@
             }
             conn.close();
         } catch(Exception e) {
-            out.println("Error connecting to database.");
+            out.println("<tr><td colspan='3'>Database Error: " + e.getMessage() + "</td></tr>");
+            e.printStackTrace(); // This prints the full error to your IntelliJ console
         }
     %>
 </table>
