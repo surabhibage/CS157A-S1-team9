@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,6 +66,39 @@
         Already have an account? <a href="login.jsp">Log In</a>
     </p>
 </div>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+</head>
+<body>
+
+<h2>Create Account</h2>
+
+<form action="RegisterServlet" method="post">
+    Username: <input type="text" name="username" required><br><br>
+
+    Password: <input type="password" name="password" required><br><br>
+
+    First Name: <input type="text" name="fname"><br><br>
+
+    Last Name: <input type="text" name="lname"><br><br>
+
+    Role:
+    <select name="role">
+        <option value="Borrower">Borrower</option>
+        <option value="Admin">Admin</option>
+    </select><br><br>
+
+    <input type="submit" value="Register">
+</form>
+
+<% if (request.getParameter("error") != null) { %>
+    <p style="color:red;">Error creating account. Try again.</p>
+<% } %>
 
 </body>
 </html>
