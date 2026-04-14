@@ -1,3 +1,4 @@
+//package web_app.src;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // 3. Establish the Connection to the 'Class' database
-            String url = "jdbc:mysql://localhost:3306/Class?autoReconnect=true&useSSL=false";
+            String url = "jdbc:mysql://localhost:3306/LibraryManagementSys?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(url, dbUser, dbPassword);
 
             // 4. Base SQL Query using PreparedStatement to prevent SQL injection

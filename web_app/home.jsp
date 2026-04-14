@@ -37,7 +37,7 @@
     <%
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LibraryDB", "root", "password");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LibraryManagementSys?autoReconnect=true&useSSL=false", "root", "password");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT book_id, title, author, availability_status FROM Books"); // TODO: edit statement to match
 
