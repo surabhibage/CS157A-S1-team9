@@ -1,9 +1,0 @@
-9:50 Discussing issues with the ERD diagram, forming relationships between entities
-10:10 Casey - starting to work on the code for the homepage 
-           Surabhi - working on the ERD diagram 
-10:42 Still rearranging current components of the ERD diagram 
-10:54 Defining relational schemas 
-11:10 Splitting up work 
-          entity sets description - surabhi 
-          relationships and multiplicity - dickson
-          tables - casey
