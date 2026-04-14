@@ -30,8 +30,7 @@
     <tr>
         <th>Title</th>
         <th>Author</th>
-        <th>Availability</th>
-        <th>Action</th>
+        <th>Genre</th>
     </tr>
 
     <%
@@ -39,15 +38,14 @@
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Team9LibSys?autoReconnect=true&useSSL=false", "root", "ne83De-JVui");
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT book_id, title, author, availability_status FROM Books"); // TODO: edit statement to match
+            ResultSet rs = stmt.executeQuery("SELECT Book_ID, Title, Author, Genre FROM Books");
 
             while(rs.next()) {
     %>
     <tr>
-        <td><%= rs.getString("title") %></td>
-        <td><%= rs.getString("author") %></td>
-        <td><%= rs.getString("availability_status") %></td>
-        <td><a href="bookDetails.jsp?id=<%= rs.getInt("book_id") %>" class="btn">View Details</a></td>
+        <td><%= rs.getString("Title") %></td>
+        <td><%= rs.getString("Author") %></td>
+        <td><%= rs.getString("Genre") %></td>
     </tr>
     <%
             }
