@@ -1,0 +1,140 @@
+-- ==========================================
+-- 1. POPULATE BASE ENTITIES
+-- ==========================================
+
+INSERT INTO Library (Library_ID, Name, Address, Phone_Number) VALUES
+(1, 'Central Library', '100 Main St', '555-0101'),
+(2, 'North Branch', '200 North Ave', '555-0102'),
+(3, 'South Branch', '300 South Blvd', '555-0103'),
+(4, 'East Branch', '400 East Rd', '555-0104'),
+(5, 'West Branch', '500 West Ln', '555-0105'),
+(6, 'Downtown Library', '600 City Center', '555-0106'),
+(7, 'Uptown Library', '700 High St', '555-0107'),
+(8, 'University Branch', '800 College Way', '555-0108'),
+(9, 'Community Center', '900 Park Dr', '555-0109'),
+(10, 'Historic Branch', '1000 Old Town', '555-0110');
+
+-- Inserting 20 Users (IDs 1-10 for Borrowers, IDs 11-20 for Admins)
+INSERT INTO Users (Username, Password, First_Name, Last_Name, Phone, Address) VALUES
+('jsmith', 'pass123', 'John', 'Smith', '555-1001', '11 Apple St'),
+('jdoe', 'pass123', 'Jane', 'Doe', '555-1002', '12 Berry Ln'),
+('bobw', 'pass123', 'Bob', 'Williams', '555-1003', '13 Cherry Ct'),
+('alicej', 'pass123', 'Alice', 'Johnson', '555-1004', '14 Date Ave'),
+('charlieb', 'pass123', 'Charlie', 'Brown', '555-1005', '15 Elm St'),
+('evad', 'pass123', 'Eva', 'Davis', '555-1006', '16 Fig Rd'),
+('frankm', 'pass123', 'Frank', 'Miller', '555-1007', '17 Grape Dr'),
+('gracew', 'pass123', 'Grace', 'Wilson', '555-1008', '18 Hazel Blvd'),
+('henryt', 'pass123', 'Henry', 'Taylor', '555-1009', '19 Ivy Ln'),
+('ivy', 'pass123', 'Ivy', 'Anderson', '555-1010', '20 Joy St'),
+('admin1', 'adminpass', 'Admin', 'One', '555-2001', 'Staff Box 1'),
+('admin2', 'adminpass', 'Admin', 'Two', '555-2002', 'Staff Box 2'),
+('admin3', 'adminpass', 'Admin', 'Three', '555-2003', 'Staff Box 3'),
+('admin4', 'adminpass', 'Admin', 'Four', '555-2004', 'Staff Box 4'),
+('admin5', 'adminpass', 'Admin', 'Five', '555-2005', 'Staff Box 5'),
+('admin6', 'adminpass', 'Admin', 'Six', '555-2006', 'Staff Box 6'),
+('admin7', 'adminpass', 'Admin', 'Seven', '555-2007', 'Staff Box 7'),
+('admin8', 'adminpass', 'Admin', 'Eight', '555-2008', 'Staff Box 8'),
+('admin9', 'adminpass', 'Admin', 'Nine', '555-2009', 'Staff Box 9'),
+('admin10', 'adminpass', 'Admin', 'Ten', '555-2010', 'Staff Box 10');
+
+INSERT INTO Book (Book_ID, Title, Author, Publisher, Publication_Date, Genre, Synopsis) VALUES
+(1, 'The Hobbit', 'J.R.R. Tolkien', 'Allen & Unwin', '1937-09-21', 'Fantasy', 'A hobbit goes on an adventure.'),
+(2, '1984', 'George Orwell', 'Secker & Warburg', '1949-06-08', 'Dystopian', 'Big Brother is watching.'),
+(3, 'Dune', 'Frank Herbert', 'Chilton Books', '1965-08-01', 'Sci-Fi', 'Spice must flow.'),
+(4, 'Foundation', 'Isaac Asimov', 'Gnome Press', '1951-05-01', 'Sci-Fi', 'Psychohistory saves the galaxy.'),
+(5, 'Neuromancer', 'William Gibson', 'Ace', '1984-07-01', 'Cyberpunk', 'Hacking the matrix.'),
+(6, 'Catch-22', 'Joseph Heller', 'Simon & Schuster', '1961-11-10', 'Satire', 'War is absurd.'),
+(7, 'Beloved', 'Toni Morrison', 'Knopf', '1987-09-02', 'Historical', 'A haunting legacy.'),
+(8, 'The Color Purple', 'Alice Walker', 'Harcourt', '1982-01-01', 'Fiction', 'A story of resilience.'),
+(9, 'Fahrenheit 451', 'Ray Bradbury', 'Ballantine', '1953-10-19', 'Dystopian', 'Burning books.'),
+(10, 'Brave New World', 'Aldous Huxley', 'Chatto & Windus', '1932-01-01', 'Sci-Fi', 'A soma-fueled future.');
+
+INSERT INTO Loans (Loan_ID, Borrow_Date, Due_Date, Date_Returned, Renewal_Count) VALUES
+(1, '2023-10-01', '2023-10-15', '2023-10-14', 0),
+(2, '2023-10-02', '2023-10-16', NULL, 1),
+(3, '2023-10-03', '2023-10-17', '2023-10-18', 0),
+(4, '2023-10-04', '2023-10-18', NULL, 0),
+(5, '2023-10-05', '2023-10-19', '2023-10-15', 0),
+(6, '2023-10-06', '2023-10-20', NULL, 2),
+(7, '2023-10-07', '2023-10-21', '2023-10-20', 0),
+(8, '2023-10-08', '2023-10-22', NULL, 0),
+(9, '2023-10-09', '2023-10-23', '2023-10-21', 1),
+(10, '2023-10-10', '2023-10-24', NULL, 0);
+
+INSERT INTO Holds (Hold_ID, Request_Date, Expiration_Date, Pickup_Location) VALUES
+(1, '2023-10-11', '2023-10-18', 'Central Library'),
+(2, '2023-10-12', '2023-10-19', 'North Branch'),
+(3, '2023-10-13', '2023-10-20', 'South Branch'),
+(4, '2023-10-14', '2023-10-21', 'East Branch'),
+(5, '2023-10-15', '2023-10-22', 'West Branch'),
+(6, '2023-10-16', '2023-10-23', 'Downtown Library'),
+(7, '2023-10-17', '2023-10-24', 'Uptown Library'),
+(8, '2023-10-18', '2023-10-25', 'University Branch'),
+(9, '2023-10-19', '2023-10-26', 'Community Center'),
+(10, '2023-10-20', '2023-10-27', 'Historic Branch');
+
+INSERT INTO Settings (Setting_ID, Max_Renewals, Default_Borrow_Val) VALUES
+(1, 2, 14), (2, 3, 21), (3, 1, 7), (4, 2, 14), (5, 2, 14),
+(6, 4, 28), (7, 2, 14), (8, 3, 21), (9, 1, 7), (10, 5, 30);
+
+-- ==========================================
+-- 2. POPULATE SUBCLASSES & DEPENDENT ENTITIES
+-- ==========================================
+
+-- Assigning Users 1-10 as Borrowers (CardNum 1001-1010)
+INSERT INTO Borrower (User_ID, CardNum, maxBorrowed, numBorrowed) VALUES
+(1, 1001, 5, 1), (2, 1002, 5, 2), (3, 1003, 5, 0), (4, 1004, 5, 3), (5, 1005, 5, 1),
+(6, 1006, 5, 0), (7, 1007, 5, 4), (8, 1008, 5, 1), (9, 1009, 5, 0), (10, 1010, 5, 2);
+
+-- Assigning Users 11-20 as Admins (EmployeeID 5001-5010)
+INSERT INTO Admin (User_ID, EmployeeID, Permissions) VALUES
+(11, 5001, 'All'), (12, 5002, 'Read/Write'), (13, 5003, 'Read Only'), (14, 5004, 'All'), (15, 5005, 'Read/Write'),
+(16, 5006, 'All'), (17, 5007, 'Read/Write'), (18, 5008, 'Read Only'), (19, 5009, 'All'), (20, 5010, 'Read/Write');
+
+-- Creating 10 physical copies of books tied to Library IDs 1-10
+INSERT INTO Inventory (Copy_ID, Status, Library_ID) VALUES
+(1, 'Available', 1), (2, 'Checked Out', 2), (3, 'Lost', 3), (4, 'Available', 4), (5, 'In Transit', 5),
+(6, 'Available', 6), (7, 'Checked Out', 7), (8, 'Available', 8), (9, 'Damaged', 9), (10, 'Available', 10);
+
+
+-- ==========================================
+-- 3. POPULATE RELATIONSHIP TABLES
+-- ==========================================
+
+INSERT INTO Has (Book_ID, Copy_ID) VALUES
+(1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
+(6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
+
+INSERT INTO Reserves (Hold_ID, Book_ID) VALUES
+(1, 10), (2, 9), (3, 8), (4, 7), (5, 6),
+(6, 5), (7, 4), (8, 3), (9, 2), (10, 1);
+
+INSERT INTO Registers (User_ID, Library_ID) VALUES
+(1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
+(6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
+
+INSERT INTO Borrows (User_ID, Loan_ID, CardNum) VALUES
+(1, 1, 1001), (2, 2, 1002), (3, 3, 1003), (4, 4, 1004), (5, 5, 1005),
+(6, 6, 1006), (7, 7, 1007), (8, 8, 1008), (9, 9, 1009), (10, 10, 1010);
+
+INSERT INTO LoansOut (Loan_ID, Copy_ID) VALUES
+(1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
+(6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
+
+INSERT INTO Requests (User_ID, Hold_ID, CardNum) VALUES
+(1, 1, 1001), (2, 2, 1002), (3, 3, 1003), (4, 4, 1004), (5, 5, 1005),
+(6, 6, 1006), (7, 7, 1007), (8, 8, 1008), (9, 9, 1009), (10, 10, 1010);
+
+INSERT INTO Approves (Hold_ID, User_ID, Employee_ID) VALUES
+(1, 11, 5001), (2, 12, 5002), (3, 13, 5003), (4, 14, 5004), (5, 15, 5005),
+(6, 16, 5006), (7, 17, 5007), (8, 18, 5008), (9, 19, 5009), (10, 20, 5010);
+
+INSERT INTO Admin_Modifies (Setting_ID, User_ID, Employee_ID) VALUES
+(1, 11, 5001), (2, 12, 5002), (3, 13, 5003), (4, 14, 5004), (5, 15, 5005),
+(6, 16, 5006), (7, 17, 5007), (8, 18, 5008), (9, 19, 5009), (10, 20, 5010);
+
+INSERT INTO Edits (Copy_ID, User_ID, Employee_ID, Type) VALUES
+(1, 11, 5001, 'Status Update'), (2, 12, 5002, 'Condition Log'), (3, 13, 5003, 'Location Change'),
+(4, 14, 5004, 'Status Update'), (5, 15, 5005, 'Condition Log'), (6, 16, 5006, 'Location Change'),
+(7, 17, 5007, 'Status Update'), (8, 18, 5008, 'Condition Log'), (9, 19, 5009, 'Location Change'),
+(10, 20, 5010, 'Status Update');
