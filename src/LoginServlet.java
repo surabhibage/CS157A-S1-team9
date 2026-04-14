@@ -22,7 +22,6 @@ public class LoginServlet extends HttpServlet {
         String userParam = request.getParameter("username");
         String passParam = request.getParameter("password");
 
-        // TODO: Update these to match database password
         String dbUser = "root";
         String dbPassword = "ne83De-JVui";
 
