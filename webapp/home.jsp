@@ -19,6 +19,7 @@
 <header>
     <h1>Library Inventory</h1>
     <nav>
+        <a href="add-book.jsp" class="btn" style="background-color: #007bff;">Add New Book</a> |
         <a href="settings.jsp">Account Settings</a> |
         <a href="LogoutServlet">Log Out</a>
     </nav>
