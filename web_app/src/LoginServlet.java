@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 
         // TODO: Update these to match database password
         String dbUser = "root";
-        String dbPassword = "your_mysql_password";
+        String dbPassword = "ne83De-JVui";
 
         Connection con = null;
         PreparedStatement pst = null;
@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // 3. Establish the Connection to the 'Class' database
-            String url = "jdbc:mysql://localhost:3306/LibraryManagementSys?autoReconnect=true&useSSL=false";
+            String url = "jdbc:mysql://localhost:3306/Team9LibSys?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(url, dbUser, dbPassword);
 
             // 4. Base SQL Query using PreparedStatement to prevent SQL injection

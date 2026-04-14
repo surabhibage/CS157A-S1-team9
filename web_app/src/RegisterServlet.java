@@ -37,14 +37,14 @@ public class RegisterServlet extends HttpServlet {
         int userId = (int)(Math.random() * 100000);
 
         String dbUser = "root";
-        String dbPassword = "your_mysql_password";
+        String dbPassword = "ne83De-JVui";
 
         Connection con = null;
         PreparedStatement pst = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/LibraryManagementSys?autoReconnect=true&useSSL=false";
+            String url = "jdbc:mysql://localhost:3306/Team9LibSys?autoReconnect=true&useSSL=false";
             con = DriverManager.getConnection(url, dbUser, dbPassword);
 
             // Prepare the SQL INSERT statement
