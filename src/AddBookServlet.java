@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Date;
 import javax.servlet.ServletException;
+import db.DatabaseConnection;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,14 +25,8 @@ public class AddBookServlet extends HttpServlet {
         String genre = request.getParameter("genre");
         String synopsis = request.getParameter("synopsis");
 
-        // These values come from your original configuration [cite: 9]
-        String url = "jdbc:mysql://localhost:3306/Team9LibSys?useSSL=false";
-        String user = "root";
-        String password = "ne83De-JVui";
-
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(url, user, password);
+            Connection conn = DatabaseConnection.getConnection();
 
             String sql = "INSERT INTO Book (Book_ID, Title, Author, Publisher, Publication_Date, Genre, Synopsis) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);

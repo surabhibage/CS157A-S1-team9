@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
+import db.DatabaseConnection;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +17,7 @@ public class DeleteBookServlet extends HttpServlet {
         String bookId = request.getParameter("bookId");
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/Team9LibSys", "root", "ne83De-JVui");
+            Connection conn = DatabaseConnection.getConnection();
 
             // SQL to delete the specific book
             String sql = "DELETE FROM Book WHERE Book_ID = ?";
