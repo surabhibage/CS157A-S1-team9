@@ -30,12 +30,22 @@
     <h1>Library Inventory</h1>
     <nav>
         <% if ("Admin".equals(session.getAttribute("role"))) { %>
+        <a href="adminDashboard.jsp" class="btn" style="background-color: #17a2b8;">Admin Dashboard</a> |
         <a href="add-book.jsp" class="btn" style="background-color: #007bff;">Add New Book</a> |
         <% } %>
         <a href="settings.jsp">Account Settings</a> |
         <a href="LogoutServlet">Log Out</a>
     </nav>
 </header>
+
+<%
+    String role = (String) session.getAttribute("role");
+    Integer userId = (Integer) session.getAttribute("userId");
+    if (userId == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
 
 <h2>All Inventory Details</h2>
 
@@ -47,71 +57,136 @@
     <a href="home.jsp" class="btn" style="background-color: #6c757d; margin-left: 10px;">Clear</a>
 </form>
 
+<% if (request.getParameter("borrow") != null) { %>
+    <div style="padding: 10px; margin-bottom: 20px; border-radius: 4px; background-color: #d4edda; color: #155724;">Book borrowed successfully!</div>
+<% } %>
+<% if (request.getParameter("renew") != null) { %>
+    <div style="padding: 10px; margin-bottom: 20px; border-radius: 4px; background-color: #d4edda; color: #155724;">Book renewed successfully!</div>
+<% } %>
+<% if (request.getParameter("error") != null) { 
+    String errorMsg = request.getParameter("error");
+    String displayMsg = errorMsg;
+    if ("max_renewals_reached".equals(errorMsg)) displayMsg = "Maximum renewal limit reached (3 renewals max).";
+    if ("on_hold".equals(errorMsg)) displayMsg = "Renewal failed: This book is on hold for another user.";
+%>
+    <div style="padding: 10px; margin-bottom: 20px; border-radius: 4px; background-color: #f8d7da; color: #721c24;">Error: <%= displayMsg %></div>
+<% } %>
+
 <table>
     <thead>
         <tr>
-            <%
-                try {
-                    Connection conn = DatabaseConnection.getConnection();
-
-                    String searchQuery = request.getParameter("query");
-                    ResultSet rs;
-                    
-                    if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-                        String sql = "SELECT * FROM Book WHERE Title LIKE ? OR Author LIKE ? OR Genre LIKE ?";
-                        PreparedStatement pstmt = conn.prepareStatement(sql);
-                        String searchPattern = "%" + searchQuery.trim() + "%";
-                        pstmt.setString(1, searchPattern);
-                        pstmt.setString(2, searchPattern);
-                        pstmt.setString(3, searchPattern);
-                        rs = pstmt.executeQuery();
-                    } else {
-                        Statement stmt = conn.createStatement();
-                        rs = stmt.executeQuery("SELECT * FROM Book");
-                    }
-                    ResultSetMetaData rsmd = rs.getMetaData();
-                    int columnCount = rsmd.getColumnCount();
-
-                    // 2. Automatically generate headers based on DB columns
-                    for (int i = 1; i <= columnCount; i++) {
-                        out.print("<th>" + rsmd.getColumnName(i).replace("_", " ") + "</th>");
-                    }
-            %>
-            <% if ("Admin".equals(session.getAttribute("role"))) { %>
-            <th>Actions</th> 
-            <% } %>
+            <th>Book ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         <%
-                    while(rs.next()) {
-                        String currentId = rs.getString("Book_ID"); // Assuming PK is Book_ID
+            Connection conn = null;
+            try {
+                conn = DatabaseConnection.getConnection();
+                String searchQuery = request.getParameter("query");
+                String sql = "SELECT b.Book_ID, b.Title, b.Author, b.Genre, " +
+                             "(SELECT COUNT(*) FROM Inventory i JOIN Has h ON i.Copy_ID = h.Copy_ID WHERE h.Book_ID = b.Book_ID AND i.Status = 'Available') as AvailableCopies " +
+                             "FROM Book b";
+                
+                PreparedStatement pstmt;
+                if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+                    sql += " WHERE b.Title LIKE ? OR b.Author LIKE ? OR b.Genre LIKE ?";
+                    pstmt = conn.prepareStatement(sql);
+                    String searchPattern = "%" + searchQuery.trim() + "%";
+                    pstmt.setString(1, searchPattern);
+                    pstmt.setString(2, searchPattern);
+                    pstmt.setString(3, searchPattern);
+                } else {
+                    pstmt = conn.prepareStatement(sql);
+                }
+                
+                ResultSet rs = pstmt.executeQuery();
+                while(rs.next()) {
+                    String currentId = rs.getString("Book_ID");
+                    int available = rs.getInt("AvailableCopies");
         %>
         <tr>
-            <%
-                // 3. Automatically generate data cells for every column
-                for (int i = 1; i <= columnCount; i++) {
-            %>
-                <td><%= rs.getString(i) == null ? "" : rs.getString(i) %></td>
-            <% } %>
-
-            <% if ("Admin".equals(session.getAttribute("role"))) { %>
+            <td><%= rs.getString("Book_ID") %></td>
+            <td><%= rs.getString("Title") %></td>
+            <td><%= rs.getString("Author") %></td>
+            <td><%= rs.getString("Genre") %></td>
+            <td><%= available > 0 ? "Available (" + available + ")" : "Out of Stock" %></td>
             <td>
-                <button class="btn-delete" onclick="confirmDelete('<%= currentId %>')">
-                    Delete
-                </button>
+                <% if ("Admin".equals(role)) { %>
+                    <button class="btn-delete" onclick="confirmDelete('<%= currentId %>')">Delete</button>
+                <% } else if ("Borrower".equals(role) && available > 0) { %>
+                    <a href="BorrowBookServlet?bookId=<%= currentId %>" class="btn">Borrow</a>
+                <% } %>
             </td>
-            <% } %>
         </tr>
         <%
-                    }
-                    conn.close();
-                } catch(Exception e) {
-                    out.println("<tr><td colspan='10'>Error: " + e.getMessage() + "</td></tr>");
                 }
+            } catch(Exception e) {
+                out.println("<tr><td colspan='6'>Error: " + e.getMessage() + "</td></tr>");
+            } finally {
+                // Keep connection open for the second table if needed, or close and reopen.
+                // For simplicity in JSP, we'll close it at the very end.
+            }
         %>
     </tbody>
 </table>
+
+<% if ("Borrower".equals(role)) { %>
+    <hr style="margin-top: 40px;">
+    <h2>My Borrowed Books</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Renewals</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+                try {
+                    String myBooksSql = "SELECT b.Title, l.Due_Date, l.Renewal_Count, l.Loan_ID " +
+                                        "FROM Loans l " +
+                                        "JOIN Borrows br ON l.Loan_ID = br.Loan_ID " +
+                                        "JOIN LoansOut lo ON l.Loan_ID = lo.Loan_ID " +
+                                        "JOIN Has h ON lo.Copy_ID = h.Copy_ID " +
+                                        "JOIN Book b ON h.Book_ID = b.Book_ID " +
+                                        "WHERE br.User_ID = ? AND l.Date_Returned IS NULL";
+                    PreparedStatement myPstmt = conn.prepareStatement(myBooksSql);
+                    myPstmt.setInt(1, userId);
+                    ResultSet myRs = myPstmt.executeQuery();
+                    while(myRs.next()) {
+            %>
+            <tr>
+                <td><%= myRs.getString("Title") %></td>
+                <td><%= myRs.getDate("Due_Date") %></td>
+                <td><%= myRs.getInt("Renewal_Count") %></td>
+                <td>
+                    <a href="RenewBookServlet?loanId=<%= myRs.getInt("Loan_ID") %>" class="btn" style="background-color: #ffc107; color: black;">Renew</a>
+                </td>
+            </tr>
+            <%
+                    }
+                } catch(Exception e) {
+                    out.println("<tr><td colspan='4'>Error: " + e.getMessage() + "</td></tr>");
+                }
+            %>
+        </tbody>
+    </table>
+<% } %>
+
+<%
+    // Final cleanup
+    if (conn != null) {
+        try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+    }
+%>
 
 </body>
 </html>

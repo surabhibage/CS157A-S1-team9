@@ -44,6 +44,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("username", rs.getString("username"));
                 int userId = rs.getInt("User_ID");
+                session.setAttribute("userId", userId);
                 
                 String adminCheckSql = "SELECT * FROM Admin WHERE User_ID = ?";
                 try (PreparedStatement adminPst = con.prepareStatement(adminCheckSql)) {
