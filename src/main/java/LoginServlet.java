@@ -1,9 +1,10 @@
-//package web_app.src;
+//package src;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import db.DatabaseConnection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,20 +23,12 @@ public class LoginServlet extends HttpServlet {
         String userParam = request.getParameter("username");
         String passParam = request.getParameter("password");
 
-        String dbUser = "root";
-        String dbPassword = "root";
-
         Connection con = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
 
         try {
-            // 2. Load the MySQL Driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // 3. Establish the Connection to the 'Class' database
-            String url = "jdbc:mysql://localhost:3306/Team9LibSys?autoReconnect=true&useSSL=false";
-            con = DriverManager.getConnection(url, dbUser, dbPassword);
+            con = DatabaseConnection.getConnection();
 
             // 4. Base SQL Query using PreparedStatement to prevent SQL injection
             String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
@@ -50,7 +43,20 @@ public class LoginServlet extends HttpServlet {
                 // Login successful! Create a session.
                 HttpSession session = request.getSession();
                 session.setAttribute("username", rs.getString("username"));
-                //session.setAttribute("role", rs.getString("role")); // e.g., 'Borrower' or 'Admin'
+                int userId = rs.getInt("User_ID");
+                session.setAttribute("userId", userId);
+                
+                String adminCheckSql = "SELECT * FROM Admin WHERE User_ID = ?";
+                try (PreparedStatement adminPst = con.prepareStatement(adminCheckSql)) {
+                    adminPst.setInt(1, userId);
+                    try (ResultSet adminRs = adminPst.executeQuery()) {
+                        if (adminRs.next()) {
+                            session.setAttribute("role", "Admin");
+                        } else {
+                            session.setAttribute("role", "Borrower");
+                        }
+                    }
+                }
 
                 // Redirect to the home page
                 response.sendRedirect("home.jsp");

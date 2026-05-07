@@ -1,8 +1,10 @@
+//package src;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLIntegrityConstraintViolationException;
+import db.DatabaseConnection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,23 +26,18 @@ public class RegisterServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
 
-        String dbUser = "root";
-        String dbPassword = "root";
-        String url = "jdbc:mysql://localhost:3306/Team9LibSys?autoReconnect=true&useSSL=false";
-
         Connection con = null;
         PreparedStatement pst = null;
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url, dbUser, dbPassword);
+            con = DatabaseConnection.getConnection();
 
             // 2. Updated SQL (Removed User_ID because of AUTO_INCREMENT)
             // Column names match your CREATE TABLE exactly
             String sql = "INSERT INTO Users (Username, Password, First_Name, Last_Name, Phone, Address) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
 
-            pst = con.prepareStatement(sql);
+            pst = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             // 3. Mapping parameters (Note the index shift)
             pst.setString(1, username);
@@ -52,6 +49,33 @@ public class RegisterServlet extends HttpServlet {
 
             // 4. Execute the insert
             pst.executeUpdate();
+            
+            int userId = -1;
+            try (java.sql.ResultSet generatedKeys = pst.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    userId = generatedKeys.getInt(1);
+                }
+            }
+            
+            String role = request.getParameter("role");
+            if ("Admin".equals(role)) {
+                String adminSql = "INSERT INTO Admin (User_ID, EmployeeID, Permissions) VALUES (?, ?, ?)";
+                try (PreparedStatement adminPst = con.prepareStatement(adminSql)) {
+                    adminPst.setInt(1, userId);
+                    adminPst.setInt(2, (int)(Math.random() * 10000));
+                    adminPst.setString(3, "All");
+                    adminPst.executeUpdate();
+                }
+            } else {
+                String borrowerSql = "INSERT INTO Borrower (User_ID, CardNum, maxBorrowed, numBorrowed) VALUES (?, ?, ?, ?)";
+                try (PreparedStatement borrowerPst = con.prepareStatement(borrowerSql)) {
+                    borrowerPst.setInt(1, userId);
+                    borrowerPst.setInt(2, (int)(Math.random() * 100000)); // Random Card Number
+                    borrowerPst.setInt(3, 5); // Default max borrowed
+                    borrowerPst.setInt(4, 0); // Default num borrowed
+                    borrowerPst.executeUpdate();
+                }
+            }
 
             // Success redirect
             response.sendRedirect("login.jsp?registered=true");
