@@ -41,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
 
       // 3. Mapping parameters (Note the index shift)
       pst.setString(1, username);
-      pst.setString(2, password);
+      pst.setString(2, org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt()));
       pst.setString(3, firstName);
       pst.setString(4, lastName);
       pst.setString(5, phone);
