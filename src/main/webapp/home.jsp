@@ -116,7 +116,7 @@
         %>
         <tr>
             <td><%= rs.getString("Book_ID") %></td>
-            <td><%= rs.getString("Title") %></td>
+            <td><a href="book.jsp?id=<%= currentId %>" style="color: #007bff; text-decoration: none; font-weight: bold;"><%= rs.getString("Title") %></a></td>
             <td><%= rs.getString("Author") %></td>
             <td><%= rs.getString("Genre") %></td>
             <td><%= available > 0 ? "Available (" + available + ")" : "Out of Stock" %></td>

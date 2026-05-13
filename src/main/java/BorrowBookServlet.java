@@ -38,12 +38,23 @@ public class BorrowBookServlet extends HttpServlet {
       String limitSql = "SELECT numBorrowed, maxBorrowed FROM Borrower WHERE User_ID = ?";
       int numBorrowed = 0;
       int maxBorrowed = 0;
+      int borrowTime = 14;
       try (PreparedStatement pst = con.prepareStatement(limitSql)) {
         pst.setInt(1, userId);
         try (ResultSet rs = pst.executeQuery()) {
           if (rs.next()) {
             numBorrowed = rs.getInt("numBorrowed");
             maxBorrowed = rs.getInt("maxBorrowed");
+          }
+        }
+      }
+
+      // Fetch global BorrowTime from Admin table
+      String adminSql = "SELECT BorrowTime FROM Admin WHERE BorrowTime IS NOT NULL LIMIT 1";
+      try (PreparedStatement pst = con.prepareStatement(adminSql)) {
+        try (ResultSet rs = pst.executeQuery()) {
+          if (rs.next()) {
+             borrowTime = rs.getInt("BorrowTime");
           }
         }
       }
@@ -94,7 +105,7 @@ public class BorrowBookServlet extends HttpServlet {
 
       Calendar cal = Calendar.getInstance();
       Date borrowDate = new Date(cal.getTimeInMillis());
-      cal.add(Calendar.DAY_OF_YEAR, 14); // 14 days due date
+      cal.add(Calendar.DAY_OF_YEAR, borrowTime); // Configurable due date
       Date dueDate = new Date(cal.getTimeInMillis());
 
       try (PreparedStatement pst = con.prepareStatement(loanSql)) {

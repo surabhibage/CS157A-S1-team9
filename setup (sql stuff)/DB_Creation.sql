@@ -60,6 +60,7 @@ CREATE TABLE Admin (
     User_ID INT PRIMARY KEY,
     EmployeeID INT,
     Permissions VARCHAR(255),
+    BorrowTime INT DEFAULT 21,
     FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
 );
 

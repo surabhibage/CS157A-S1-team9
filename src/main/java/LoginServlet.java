@@ -30,37 +30,42 @@ public class LoginServlet extends HttpServlet {
       con = DatabaseConnection.getConnection();
 
       // 4. Base SQL Query using PreparedStatement to prevent SQL injection
-      String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
+      String sql = "SELECT * FROM Users WHERE Username = ?";
       pst = con.prepareStatement(sql);
       pst.setString(1, userParam);
-      pst.setString(2, passParam); // In a real app, hash passParam before comparing
 
       rs = pst.executeQuery();
 
       // 5. Check if a user was found
       if (rs.next()) {
-        // Login successful! Create a session.
-        HttpSession session = request.getSession();
-        session.setAttribute("username", rs.getString("username"));
-        int userId = rs.getInt("User_ID");
-        session.setAttribute("userId", userId);
+        String hashedPass = rs.getString("Password");
+        if (org.mindrot.jbcrypt.BCrypt.checkpw(passParam, hashedPass)) {
+          // Login successful! Create a session.
+          HttpSession session = request.getSession();
+          session.setAttribute("username", rs.getString("username"));
+          int userId = rs.getInt("User_ID");
+          session.setAttribute("userId", userId);
 
-        String adminCheckSql = "SELECT * FROM Admin WHERE User_ID = ?";
-        try (PreparedStatement adminPst = con.prepareStatement(adminCheckSql)) {
-          adminPst.setInt(1, userId);
-          try (ResultSet adminRs = adminPst.executeQuery()) {
-            if (adminRs.next()) {
-              session.setAttribute("role", "Admin");
-            } else {
-              session.setAttribute("role", "Borrower");
+          String adminCheckSql = "SELECT * FROM Admin WHERE User_ID = ?";
+          try (PreparedStatement adminPst = con.prepareStatement(adminCheckSql)) {
+            adminPst.setInt(1, userId);
+            try (ResultSet adminRs = adminPst.executeQuery()) {
+              if (adminRs.next()) {
+                session.setAttribute("role", "Admin");
+              } else {
+                session.setAttribute("role", "Borrower");
+              }
             }
           }
-        }
 
-        // Redirect to the home page
-        response.sendRedirect("home.jsp");
+          // Redirect to the home page
+          response.sendRedirect("home.jsp");
+        } else {
+          // Password did not match
+          response.sendRedirect("login.jsp?error=invalid");
+        }
       } else {
-        // Login failed. Redirect back to login with an error flag.
+        // User not found. Redirect back to login with an error flag.
         response.sendRedirect("login.jsp?error=invalid");
       }
 
