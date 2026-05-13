@@ -7,15 +7,21 @@ Then open and run DB_Creation.sql and DB_Fill.sql.
 
 
 # To Run Library Management System:
+
+Go to `src/java/db/DatabaseConnection.java`
+
+Update the username and password to match your MySQL database.
+
+**In the terminal:**
 ```
 mvn clean install
 ```
 
-Copy `.war` file from target folder into tomcat webapps folder
+Copy `.war` file from target folder into `~\apache-tomcat-9.0.118\webapps`
 
-Rename to `library.war`
+Rename to file to `library.war`
 
-Start tomcat server
+**Start tomcat server**
 
 Access at `http://localhost:8080/library/`
 
