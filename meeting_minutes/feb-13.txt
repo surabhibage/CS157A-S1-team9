@@ -1,0 +1,22 @@
+February 13, 2026
+2:20 meeting starts
+2:25 brainstorming begins
+    library management
+    storefront
+    reselling site
+    textbook carpooling
+2:32 topic picked - library management system (potentially adding textbook sharing)
+2:35 discussing functional req
+    library view (admin) - add book, remove book, set time limit, renew, adding holds, lend book, receive book 
+    borrower view - borrow, return, search
+    both - create account
+2:41 decide programming languages
+    html/css, jsp, java, MySQL
+2:44 discuss hardware/software
+    Windows 11 & Mac OS M3 Seqouia 15.7.2
+2:48 plans to meet next
+    during class time on Tuesday
+2:50 split func req write up work
+    Casey - check in book after borrow (admin), lend book (admin), set borrow time, renew book
+    Surabhi - add new book to db, delete book from db, create account, search book
+    Dickson - add hold, view book description, borrow book (user), return book (user)
