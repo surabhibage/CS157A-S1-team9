@@ -1,5 +1,8 @@
+CREATE DATABASE IF NOT EXISTS team9libsys;
+USE team9libsys;
+
 -- Create base entities first (no foreign key dependencies)
-CREATE TABLE Library (
+CREATE TABLE IF NOT EXISTS Library (
     Library_ID INT PRIMARY KEY,
     Name VARCHAR(255),
     Address VARCHAR(255),

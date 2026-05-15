@@ -1,9 +1,7 @@
 # Database Set Up:
-```
-CREATE DATABASE team9lib;
-USE team9lib;
-```
-Then open and run DB_Creation.sql and DB_Fill.sql.
+In MySQL Workbench:
+
+Open and run `setup/DB_Creation.sql` and `setup/DB_Fill.sql`.
 
 
 # To Run Library Management System:
