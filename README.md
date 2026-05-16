@@ -1,6 +1,9 @@
 # Important Note on Contributions:
 The tracked contributions have been skewed by addition of duplicate files in the Contributions directory, as requested. As a team, we feel each person's contributions were fair. Prior to the addition of the Contributions directory, each contributor had nearly the same number of lines added to the codebase.
 
+# Link to our Demo:
+<https://new.express.adobe.com/publishedV2/urn:aaid:sc:VA6C2:51a74b9e-7666-517b-bda1-20a01805874f?promoid=Y69SGM5H&mv=other>
+
 # Database Set Up:
 In MySQL Workbench:
 
